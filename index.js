@@ -29,7 +29,22 @@ const utils = {
 const page = {
 // objet qui va permettre d'afficher les différentes pages du projet
     lobby: function() {
-        utils.pageContent("Paramétrage <i id='reboot' class='fas fa-undo'></i>", "Exercices", "<button id='start'>Commencer<i class='far fa-play-circle'></i></button>");
+
+        let mapArray = exerciceArray.map((exo) => 
+            `
+                <li>
+                    <div class="card-header">
+                        <input type="number" id=${exo.pic} min="1" max="10" value=${exo.min}>
+                        <span>min</span>
+                    </div>
+                    <img src="./img/${exo.pic}.png" />
+                    <i class="fas fa-arrow-alt-circle-left arrow" data-pic=${exo.pic}></i>
+                    <i class="fas fa-times-circle deleteBtn" data-pic=${exo.pic}></i>
+                </li>
+            `
+        ).join("") // toujours ajouter un "join" après un "map"
+
+        utils.pageContent("Paramétrage <i id='reboot' class='fas fa-undo'></i>", "<ul>" + mapArray + "</ul>", "<button id='start'>Commencer<i class='far fa-play-circle'></i></button>");
     },
 
     routine: function() {
@@ -44,9 +59,9 @@ const page = {
         utils.pageContent(
             "C'est terminé",
             "<button id='start'>Recommencer</button>",
-            "<button id='reboot' class='btn-reboot'>Réinitialiser <i class='fas fa-time-circle'></i></button>"
+            "<button id='reboot' class='btn-reboot'>Réinitialiser <i class='fas fa-times-circle'></i></button>"
         );
     }
 }
 
-page.finish();
+page.lobby();
