@@ -14,15 +14,39 @@ let exerciceArray = [
 ]
 
 class Exercice {
-
+// Classe qu on va instancier pour chaque cycle de d'exercice
 }
 
 const utils = {
-
+// objet qui aura toutes les fonctions utiles au projet
+    pageContent: function (title, content, btn) {
+        document.querySelector('h1').innerHTML = title;
+        main.innerHTML = content;
+        document.querySelector('.btn-container').innerHTML = btn;
+    }
 }
 
 const page = {
-    lobby : function() {
-        // commentaires
+// objet qui va permettre d'afficher les différentes pages du projet
+    lobby: function() {
+        utils.pageContent("Paramétrage <i id='reboot' class='fas fa-undo'></i>", "Exercices", "<button id='start'>Commencer<i class='far fa-play-circle'></i></button>");
+    },
+
+    routine: function() {
+        utils.pageContent(
+            "Routine",
+            "Exercice avec chrono",
+            null
+        );
+    },
+
+    finish: function() {
+        utils.pageContent(
+            "C'est terminé",
+            "<button id='start'>Recommencer</button>",
+            "<button id='reboot' class='btn-reboot'>Réinitialiser <i class='fas fa-time-circle'></i></button>"
+        );
     }
 }
+
+page.finish();
