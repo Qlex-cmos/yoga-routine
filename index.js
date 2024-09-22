@@ -23,8 +23,55 @@ const utils = {
         document.querySelector('h1').innerHTML = title;
         main.innerHTML = content;
         document.querySelector('.btn-container').innerHTML = btn;
+    },
+
+    handleEventMinutes: function() {
+        document.querySelectorAll('input[type="number"]').forEach((input) => {
+            input.addEventListener('input', (e) => {
+                exerciceArray.map((exo) => {
+                //    console.log("test")
+                    if(exo.pic == e.target.id) {
+                        // console.log("yes");
+                        // parseInt pour mettre un string en number
+                        exo.min = parseInt(e.target.value);
+                        console.log(exerciceArray);
+                    }
+                });
+            });
+        });
+    },
+
+    handleEventArrow: function() {
+        document.querySelectorAll('.arrow').forEach((arrow) => {
+            arrow.addEventListener('click', (e) => {
+                let position = 0;
+                exerciceArray.map((exo) => {
+                    if(exo.pic == e.target.dataset.pic && position !=0) {
+
+                        [exerciceArray[position], exerciceArray[position-1]] = [exerciceArray[position-1], exerciceArray[position]];
+                        page.lobby();
+                        // console.log(exerciceArray);
+                    } else {
+                        position++;
+                        // console.log(position);
+                    }
+                });
+            });
+        });
+    },
+
+    deleteItem: function () {
+        document.querySelectorAll(".deleteBtn").forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                const newArr = exerciceArray.filter((exo) => {
+                    exo.pic != e.target.dataset.pic
+                })
+                console.log(newArr)
+                // 1:58:31
+            });
+        });
     }
-}
+};
 
 const page = {
 // objet qui va permettre d'afficher les différentes pages du projet
@@ -45,6 +92,10 @@ const page = {
         ).join("") // toujours ajouter un "join" après un "map"
 
         utils.pageContent("Paramétrage <i id='reboot' class='fas fa-undo'></i>", "<ul>" + mapArray + "</ul>", "<button id='start'>Commencer<i class='far fa-play-circle'></i></button>");
+
+        utils.handleEventMinutes();
+        utils.handleEventArrow();
+        utils.deleteItem();
     },
 
     routine: function() {
