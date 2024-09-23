@@ -1,6 +1,5 @@
 const main = document.querySelector('main')
-
-let exerciceArray = [
+const basicArray = [
     { pic: 0, min:1},
     { pic: 1, min:1},
     { pic: 2, min:1},
@@ -12,6 +11,8 @@ let exerciceArray = [
     { pic: 8, min:1},
     { pic: 9, min:1},
 ]
+
+let exerciceArray = [];
 
 class Exercice {
 // Classe qu on va instancier pour chaque cycle de d'exercice
@@ -63,13 +64,22 @@ const utils = {
     deleteItem: function () {
         document.querySelectorAll(".deleteBtn").forEach((btn) => {
             btn.addEventListener('click', (e) => {
-                const newArr = exerciceArray.filter((exo) => {
-                    exo.pic != e.target.dataset.pic
-                })
-                console.log(newArr)
-                // 1:58:31
+                let newArr = [];
+                exerciceArray.map((exo) => {
+                    if (exo.pic != e.target.dataset.pic) {
+                        newArr.push(exo);
+                    }
+                });
+                exerciceArray = newArr;
+                // console.log(exerciceArray);
+                page.lobby();
             });
         });
+    }
+
+    reboot: function() {
+        exerciceArray = basicArray;
+        page.lobby();
     }
 };
 
@@ -96,6 +106,7 @@ const page = {
         utils.handleEventMinutes();
         utils.handleEventArrow();
         utils.deleteItem();
+        reboot.addEventListener('click', () => utils.reboot());
     },
 
     routine: function() {
