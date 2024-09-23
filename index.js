@@ -14,6 +14,15 @@ const basicArray = [
 
 let exerciceArray = [];
 
+// Get stored exercices array, fonction anonyme qui ne se lance qu'une seule fois
+(() => {
+    if (localStorage.exercices) {
+        exerciceArray = JSON.parse(localStorage.exercices)
+    } else {
+        exerciceArray = basicArray
+    }
+})();
+
 class Exercice {
 // Classe qu on va instancier pour chaque cycle de d'exercice
 }
@@ -35,7 +44,7 @@ const utils = {
                         // console.log("yes");
                         // parseInt pour mettre un string en number
                         exo.min = parseInt(e.target.value);
-                        console.log(exerciceArray);
+                        this.store();
                     }
                 });
             });
@@ -51,6 +60,7 @@ const utils = {
 
                         [exerciceArray[position], exerciceArray[position-1]] = [exerciceArray[position-1], exerciceArray[position]];
                         page.lobby();
+                        this.store();
                         // console.log(exerciceArray);
                     } else {
                         position++;
@@ -73,13 +83,19 @@ const utils = {
                 exerciceArray = newArr;
                 // console.log(exerciceArray);
                 page.lobby();
+                this.store();
             });
         });
-    }
+    },
 
     reboot: function() {
         exerciceArray = basicArray;
         page.lobby();
+        this.store();
+    },
+
+    store: function() {
+        localStorage.exercices = JSON.stringify(exerciceArray);
     }
 };
 
@@ -107,6 +123,7 @@ const page = {
         utils.handleEventArrow();
         utils.deleteItem();
         reboot.addEventListener('click', () => utils.reboot());
+        start.addEventListener('click', () => this.routine());
     },
 
     routine: function() {
@@ -127,3 +144,6 @@ const page = {
 }
 
 page.lobby();
+
+
+// 2:16:06
